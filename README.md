@@ -1,71 +1,40 @@
-# 傳播觀察誌 Media Insight Wiki
+# 傳播觀察誌｜Media Insight Wiki
 
-一個以繁體中文整理傳播理論、媒體案例與研究方法的知識網站。這個專案除了呈現網頁，也示範如何透過 `AGENTS.md` 建立一套可重複使用的 AI 協作規則。
+一個以繁體中文整理「傳播理論」、「媒體議題」與「台灣實際案例」的互動式知識庫網站。本專案除了呈現人文雜誌風格的網頁成果，也示範如何透過 `AGENTS.md` 建立一套可重複使用、結構化的 AI 協作與擴充規則。
 
 ## 專案特色
 
-- **可延伸的文章資料庫：** 文章集中在 `data/articles.js`，共用 `article.html` 模板自動呈現。
-- **一致的內容格式：** 每篇文章包含摘要、分類、閱讀時間、段落與參考資料。
-- **原生前端：** 使用 HTML、CSS、JavaScript，不需要安裝套件或執行建置程序。
-- **適合 GitHub Pages：** 使用相對路徑，可直接部署為靜態網站。
-- **AI 開發規則：** `AGENTS.md` 記錄專案目的、檔案結構、視覺規範、內容格式與 AI 工作流程。
+- **模組化單頁資料架構**：所有知識條目集中管理於 `index.html` 內建的 `WIKI_ENTRIES` 資料陣列中，由前端渲染引擎自動生成卡片與彈出式深度閱讀視窗（Modal）。
+- **一致的三段式分析脈絡**：每筆條目皆遵循固定結構，包含外層摘要、關鍵字標籤，以及內頁的「Ⅰ. 核心概念與理論解析」、「Ⅱ. 台灣實際案例對照」與「Ⅲ. 研究觀察與延伸提問」。
+- **人文學術雜誌視覺設計**：採用 Google Fonts（思源宋體 `Noto Serif TC`、思源黑體与英文襯線體 `Cormorant Garamond`）搭配莫蘭迪色票，營造舒適的閱讀體驗。
+- **零相依性原生前端**：使用純 HTML、CSS 與 Vanilla JavaScript 建置，無須安裝套件或執行建置程序，完美適配 GitHub Pages 靜態部署。
+- **AI 開發規則驅動**：透過 `AGENTS.md` 明確規範專案定位、CSS 色彩變數、DOM 頁面結構與 JSON 資料欄位（Schema）。
 
 ## 專案結構
 
 ```text
 media-insight-wiki/
-├── AGENTS.md
-├── README.md
-├── index.html
-├── article.html
-├── about.html
-├── 404.html
-├── data/articles.js
-└── assets/
-    ├── css/style.css
-    └── js/
-        ├── app.js
-        └── article.js
-```
+├── AGENTS.md      # AI 協作規範（定義視覺色票、頁面結構與新增內容之 JSON Schema）
+├── README.md      # 專案說明與操作指南
+└── index.html     # 主應用程式（包含雜誌風 CSS 設計系統、檢索篩選邏輯與 WIKI_ENTRIES 資料庫）
+本機預覽與線上瀏覽
+線上瀏覽：直接開啟 GitHub Pages 網址 https://chunnnnray.github.io/media-insight-wiki/
 
-## 本機預覽
+本機預覽：下載 index.html 後，直接以任何現代瀏覽器雙擊開啟即可完整操作（支援分類篩選、即時關鍵字搜尋與點擊展開詳情視窗）。
 
-最簡單的方式是直接用瀏覽器開啟 `index.html`。若瀏覽器因本機檔案安全限制而無法載入資料，也可以在專案資料夾執行：
+如何透過 AI 新增一筆知識條目
+請 AI 先閱讀專案根目錄下的 AGENTS.md（特別是第 5 節「新增內容之標準格式」）。
 
-```bash
-python -m http.server 8000
-```
+開啟 index.html，找到下方 <script> 區塊中的 const WIKI_ENTRIES 陣列。
 
-再開啟 <http://localhost:8000>。
+依照固定 Schema 新增一筆條目物件（設定遞增之 id，如 entry-007，並填妥 category、title、enTitle、keywords、summary、coreConcept、taiwanCase、reflection）。
 
-## 如何新增一篇文章
+儲存並推播至 GitHub 後，網頁會自動渲染新卡片、套用對應分類標籤色，並將其納入搜尋與分類篩選系統中，無須修改任何 HTML 或 CSS 結構。
 
-1. 閱讀 `AGENTS.md` 的「新增文章的固定格式」。
-2. 開啟 `data/articles.js`。
-3. 在 `ARTICLES` 陣列中新增一筆文章物件，設定唯一的 `slug`。
-4. 按照既有內容規範撰寫摘要、段落與參考資料。
-5. 儲存後，首頁會自動顯示新文章；文章網址格式為 `article.html?slug=你的-slug`。
-6. 檢查文章內容、參考資料與手機版呈現。
+AI 協作提示詞範例 (Prompt Example)
+使用 AI 擴充本專案時，可直接提供以下指令：
 
-新增文章不需要建立新的 HTML 頁面，也不需要複製版型。這是本專案可重複擴充的核心設計。
+請先閱讀我的 AGENTS.md。依照第 5 節定義的 WIKI_ENTRIES JSON Schema，在「傳播理論 (theory)」分類下新增一筆關於「框架理論 (Framing Theory)」的條目（編號設為 entry-007）。請確保包含核心概念解析、台灣具體媒體案例對照，以及一個可供傳播研究延伸探討的提問。
 
-## AI 協作方式
-
-使用 AI 編輯本專案時，先要求 AI 閱讀 `AGENTS.md` 與 `README.md`。例如：
-
-> 請先閱讀 AGENTS.md。依照既有文章格式，在「理論」分類新增一篇「涵化理論」文章。請只修改必要檔案，沿用現有文章模板，提供可追溯的參考資料，並依照完成前檢查清單檢查。
-
-## 發布到 GitHub Pages
-
-1. 在 GitHub 建立一個新的 Repository，例如 `media-insight-wiki`。
-2. 將本資料夾內的所有檔案上傳至 Repository 根目錄（不要只上傳 ZIP）。
-3. 開啟 Repository 的 **Settings → Pages**。
-4. 在 **Build and deployment** 中選擇 **Deploy from a branch**。
-5. Branch 選 `main`，資料夾選 `/(root)`，按下 Save。
-6. 等待 GitHub Pages 完成部署，再由 Pages 設定頁取得公開網址。
-
-若 Repository 名稱為 `media-insight-wiki`，網址通常會是 `https://你的GitHub帳號.github.io/media-insight-wiki/`。請以 GitHub Pages 頁面實際顯示的網址為準。
-
-## 內容與引用聲明
-
-網站中的理論介紹以文末列出的學術文獻為依據。新增現實案例或統計資料時，必須補上事件年份、資料發布單位與原始來源；假設情境需明確標示。本站內容為學習筆記，不取代原始論文或正式研究。
+內容與學術誠實聲明
+本網站收錄之傳播理論與概念解析皆以真實可查證之經典文獻為基礎，並對照台灣當代傳播現象進行案例分析，作為個人學術研究與媒體觀察之數位筆記庫。
