@@ -6,7 +6,7 @@
 
 - **模組化單頁資料架構**：所有知識條目集中管理於 `index.html` 內建的 `WIKI_ENTRIES` 資料陣列中，由前端渲染引擎自動生成卡片與彈出式深度閱讀視窗（Modal）。
 - **一致的三段式分析脈絡**：每筆條目皆遵循固定結構，包含外層摘要、關鍵字標籤，以及內頁的「Ⅰ. 核心概念與理論解析」、「Ⅱ. 台灣實際案例對照」與「Ⅲ. 研究觀察與延伸提問」。
-- **人文學術雜誌視覺設計**：採用 Google Fonts（思源宋體 `Noto Serif TC`、思源黑體与英文襯線體 `Cormorant Garamond`）搭配莫蘭迪色票，營造舒適的閱讀體驗。
+- **人文學術雜誌視覺設計**：採用 Google Fonts（思源宋體 `Noto Serif TC`、思源黑體與英文襯線體 `Cormorant Garamond`）搭配莫蘭迪色票，營造舒適的閱讀體驗。
 - **零相依性原生前端**：使用純 HTML、CSS 與 Vanilla JavaScript 建置，無須安裝套件或執行建置程序，完美適配 GitHub Pages 靜態部署。
 - **AI 開發規則驅動**：透過 `AGENTS.md` 明確規範專案定位、CSS 色彩變數、DOM 頁面結構與 JSON 資料欄位（Schema）。
 
