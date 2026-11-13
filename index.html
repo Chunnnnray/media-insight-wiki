@@ -1,81 +1,651 @@
-<!doctype html>
-<html lang="zh-Hant">
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="傳播觀察誌：整理傳播理論、媒體案例與研究方法的繁體中文知識網站。">
-  <meta name="theme-color" content="#172b3a">
-  <title>傳播觀察誌｜Media Insight Wiki</title>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <script defer src="data/articles.js"></script>
-  <script defer src="assets/js/app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>傳播觀察誌｜Media Insight Wiki</title>
+    <!-- 載入 Google Fonts：思源宋體、思源黑體、高質感英文襯線體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* 對應 AGENTS.md 第 2 節定義之 CSS 設計系統變數（莫蘭迪人文雜誌調色） */
+        :root {
+            --bg-main: #F4F1EA;
+            --card-bg: #FCFBF9;
+            --primary: #1C1B18;
+            --primary-muted: #656057;
+            --accent: #9E472A;
+            --accent-bg: #EFE5DC;
+            --border-color: #DCD6CA;
+            --tag-theory: #3A5A78;
+            --tag-issue: #6B5074;
+            --tag-case: #38665B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--primary);
+            font-family: 'Noto Sans TC', -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 48px 24px 96px;
+            line-height: 1.75;
+            background-image: radial-gradient(rgba(28, 27, 24, 0.06) 1px, transparent 0);
+            background-size: 28px 28px;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        /* 1. Header 雜誌刊頭區 */
+        header {
+            background: var(--card-bg);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            padding: 44px 48px 40px;
+            margin-bottom: 36px;
+            position: relative;
+            box-shadow: 6px 6px 0px rgba(28, 27, 24, 0.08);
+        }
+
+        .masthead-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 14px;
+            margin-bottom: 28px;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--primary-muted);
+            font-weight: 500;
+        }
+
+        .spec-pill {
+            background-color: var(--primary);
+            color: var(--card-bg);
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .eng-kicker {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-style: italic;
+            font-size: 22px;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 900;
+            color: var(--primary);
+            letter-spacing: 1px;
+            line-height: 1.25;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: var(--primary-muted);
+            max-width: 720px;
+            font-weight: 400;
+        }
+
+        /* 2. Control Bar 檢索與分類列 */
+        .control-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--primary-muted);
+            padding: 9px 20px;
+            border-radius: 99px;
+            font-size: 13.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--card-bg);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(28, 27, 24, 0.15);
+        }
+
+        .search-wrapper {
+            flex: 1;
+            min-width: 250px;
+            max-width: 340px;
+            position: relative;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 10px 18px;
+            border-radius: 99px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            font-size: 13.5px;
+            color: var(--primary);
+            outline: none;
+            transition: all 0.25s;
+        }
+
+        .search-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(158, 71, 42, 0.12);
+        }
+
+        /* 3. Insight Card Grid 條目卡片網格 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 26px;
+        }
+
+        .insight-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 28px 26px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .insight-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            opacity: 0.15;
+            transition: opacity 0.28s, background 0.28s;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 6px 6px 0px rgba(28, 27, 24, 0.1);
+        }
+
+        .insight-card:hover::before {
+            opacity: 1;
+            background: var(--accent);
+        }
+
+        .card-meta-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .cat-badge {
+            font-size: 11.5px;
+            font-weight: 500;
+            color: #FFFFFF;
+            padding: 3px 11px;
+            border-radius: 3px;
+            letter-spacing: 1px;
+        }
+
+        .cat-badge.theory { background-color: var(--tag-theory); }
+        .cat-badge.issue { background-color: var(--tag-issue); }
+        .cat-badge.case { background-color: var(--tag-case); }
+
+        .entry-index {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 24px;
+            font-weight: 600;
+            font-style: italic;
+            color: #C4BDB0;
+            line-height: 1;
+        }
+
+        .card-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 21px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .card-en-title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-style: italic;
+            font-size: 16px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .card-summary {
+            font-size: 14px;
+            color: var(--primary-muted);
+            margin-bottom: 24px;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .card-footer {
+            border-top: 1px solid #EAE5DC;
+            padding-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .keyword-chip {
+            font-size: 11.5px;
+            background: #EFECE6;
+            color: var(--primary-muted);
+            padding: 2px 9px;
+            border-radius: 3px;
+        }
+
+        .read-link {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            transition: transform 0.2s;
+        }
+
+        .insight-card:hover .read-link {
+            transform: translateX(3px);
+        }
+
+        /* 4. Article Modal 深度閱讀視窗 */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(28, 27, 24, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 999;
+        }
+
+        .modal-backdrop.open {
+            display: flex;
+        }
+
+        .modal-panel {
+            background: var(--card-bg);
+            max-width: 680px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            border-radius: 6px;
+            padding: 40px 38px;
+            border: 1px solid var(--primary);
+            box-shadow: 10px 10px 0px rgba(28, 27, 24, 0.2);
+            position: relative;
+            animation: modalIn 0.25s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--primary);
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--primary);
+            color: var(--card-bg);
+        }
+
+        .modal-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 26px;
+            font-weight: 900;
+            margin-top: 14px;
+            margin-bottom: 4px;
+            line-height: 1.35;
+        }
+
+        .modal-en {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-style: italic;
+            font-size: 18px;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-section {
+            background: #F6F3EC;
+            border-left: 3px solid var(--tag-theory);
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+
+        .modal-section.case-box {
+            border-left-color: var(--tag-case);
+            background: #F1F5F3;
+        }
+
+        .modal-section.reflection-box {
+            border-left-color: var(--accent);
+            background: #F9F2EE;
+        }
+
+        .modal-section h4 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 14.5px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        .modal-section p {
+            font-size: 14.5px;
+            color: #33302B;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        @media (max-width: 640px) {
+            header { padding: 28px 22px; }
+            .modal-panel { padding: 28px 22px; }
+        }
+    </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">跳至主要內容</a>
-  <header class="site-header">
-    <div class="nav-wrap">
-      <a class="brand" href="index.html" aria-label="傳播觀察誌首頁">
-        <span class="brand-mark">M</span>
-        <span class="brand-name">傳播觀察誌<small>MEDIA INSIGHT WIKI</small></span>
-      </a>
-      <nav class="main-nav" aria-label="主要導覽">
-        <a class="active" href="index.html">探索文章</a>
-        <a href="index.html#theories">傳播理論</a>
-        <a href="about.html">關於本站</a>
-      </nav>
-    </div>
-  </header>
 
-  <main id="main">
-    <section class="hero container">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="eyebrow-line"></span> A FIELD GUIDE TO MEDIA & COMMUNICATION</p>
-        <h1>理解媒體，<br><em>也理解我們如何理解世界。</em></h1>
-        <p class="hero-intro">從經典傳播理論到當代媒體現象，將重要概念、研究觀點與真實世界連結起來。</p>
-        <a class="text-link" href="#library">開始閱讀 <span aria-hidden="true">↗</span></a>
-      </div>
-      <div class="hero-aside" aria-label="網站主題介紹">
-        <div class="orbit orbit-one"></div>
-        <div class="orbit orbit-two"></div>
-        <div class="orbit-core"><span>MEDIA</span><strong>↔</strong><span>SOCIETY</span></div>
-        <span class="orbit-note note-top">THEORY</span>
-        <span class="orbit-note note-right">CULTURE</span>
-        <span class="orbit-note note-bottom">PEOPLE</span>
-        <span class="orbit-note note-left">TECH</span>
-      </div>
-    </section>
-
-    <section class="ticker" aria-label="網站關注主題">
-      <div class="ticker-inner"><span>傳播理論</span><i>✳</i><span>媒體案例</span><i>✳</i><span>研究方法</span><i>✳</i><span>議題觀察</span><i>✳</i><span>傳播理論</span><i>✳</i><span>媒體案例</span></div>
-    </section>
-
-    <section class="container library-section" id="library">
-      <div class="section-heading" id="theories">
-        <div><p class="eyebrow">THE KNOWLEDGE LIBRARY / 01</p><h2>知識索引<span>。</span></h2></div>
-        <p class="section-note">從一個概念開始，建立理解媒體的座標。</p>
-      </div>
-
-      <div class="toolbar" aria-label="文章搜尋與篩選">
-        <label class="search-box"><span aria-hidden="true">⌕</span><span class="visually-hidden">搜尋文章</span><input id="searchInput" type="search" placeholder="搜尋理論、概念或關鍵字…" autocomplete="off"></label>
-        <div class="filter-list" id="filterList" aria-label="文章分類">
-          <button class="filter-chip active" type="button" data-category="全部">全部文章</button>
-          <button class="filter-chip" type="button" data-category="理論">傳播理論</button>
-          <button class="filter-chip" type="button" data-category="媒體案例">媒體案例</button>
-          <button class="filter-chip" type="button" data-category="研究方法">研究方法</button>
-          <button class="filter-chip" type="button" data-category="議題觀察">議題觀察</button>
+<div class="container">
+    <!-- 1. Header 刊頭區 -->
+    <header>
+        <div class="masthead-bar">
+            <span class="spec-pill">AGENTS.MD DRIVEN WIKI</span>
+            <span>NCCU COMM · MEDIA INSIGHT ARCHIVE</span>
+            <span id="statsCounter">載入條目中...</span>
         </div>
-      </div>
+        <div class="title-group">
+            <span class="eng-kicker">The Contemporary Communication & Media Review</span>
+            <h1>傳播觀察誌｜Media Insight Wiki</h1>
+        </div>
+        <p class="subtitle">串聯經典傳播理論、當代數位媒體議題與台灣在地實務案例的結構化知識庫。點擊任一知識卡片，即可展開「概念解析 → 台灣案例 → 研究觀察提問」三段式深度筆記。</p>
+    </header>
 
-      <div class="results-meta"><span id="resultCount" aria-live="polite">載入文章中…</span><span>CURATED NOTES · 繁體中文</span></div>
-      <div class="article-grid" id="articleGrid" aria-live="polite"></div>
-      <div class="empty-state" id="emptyState" hidden><span class="empty-icon">⌕</span><h3>沒有找到符合的文章</h3><p>試試其他關鍵字，或切換文章分類。</p></div>
-    </section>
+    <!-- 2. Control Bar 檢索與分類列 -->
+    <div class="control-bar">
+        <div class="category-tabs">
+            <button class="tab-btn active" onclick="setCategory('all', this)">全部條目 All</button>
+            <button class="tab-btn" onclick="setCategory('theory', this)">傳播理論 Theory</button>
+            <button class="tab-btn" onclick="setCategory('issue', this)">媒體議題 Issue</button>
+            <button class="tab-btn" onclick="setCategory('case', this)">台灣案例 Taiwan Case</button>
+        </div>
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="搜尋理論、英文詞彙或台灣案例..." oninput="renderEntries()">
+        </div>
+    </div>
 
-    <section class="manifesto-band">
-      <div class="container manifesto-inner"><p class="eyebrow">A NOTE ON MEDIA LITERACY</p><h2>理論不是答案，<br>而是提出好問題的起點。</h2><a href="about.html" class="light-link">認識傳播觀察誌 <span aria-hidden="true">↗</span></a></div>
-    </section>
-  </main>
+    <!-- 3. Insight Card Grid 條目卡片網格 -->
+    <div class="card-grid" id="cardGrid"></div>
+</div>
 
-  <footer class="site-footer"><div class="container footer-inner"><a class="footer-brand" href="index.html">傳播觀察誌<span> / MEDIA INSIGHT WIKI</span></a><p>以理論閱讀媒體，以案例思考社會。</p><span class="footer-date">AN OPEN LEARNING PROJECT</span></div></footer>
+<!-- 4. Article Modal 深度閱讀視窗 -->
+<div class="modal-backdrop" id="articleModal" onclick="closeModal(event)">
+    <div class="modal-panel" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeModal()">✕</button>
+        <div>
+            <span class="cat-badge" id="m-badge">分類</span>
+            <span id="m-id" style="margin-left: 10px; font-family: monospace; font-size: 12px; color: #8C857B;"></span>
+        </div>
+        <h2 class="modal-title" id="m-title">標題</h2>
+        <div class="modal-en" id="m-en">English Term</div>
+
+        <div class="modal-section">
+            <h4>Ⅰ. 核心概念與理論解析</h4>
+            <p id="m-concept"></p>
+        </div>
+
+        <div class="modal-section case-box">
+            <h4>Ⅱ. 台灣實際案例對照</h4>
+            <p id="m-case"></p>
+        </div>
+
+        <div class="modal-section reflection-box">
+            <h4>Ⅲ. 研究觀察與延伸提問</h4>
+            <p id="m-reflection"></p>
+        </div>
+
+        <div class="keyword-list" id="m-keywords" style="margin-top: 20px;"></div>
+    </div>
+</div>
+
+<script>
+    /**
+     * 嚴格遵循 AGENTS.md 第 5 節定義之 Content Addition Schema
+     */
+    const WIKI_ENTRIES = [
+        {
+            id: "entry-001",
+            category: "theory",
+            categoryLabel: "傳播理論",
+            title: "準社會互動與關係破裂",
+            enTitle: "Parasocial Interaction (PSI) & Breakup",
+            keywords: ["網紅行銷", "粉絲心理", "期望違背"],
+            summary: "閱聽人對媒體人物產生宛如真實朋友般的單向情感依附，以及爭議發生時的情感反噬。",
+            coreConcept: "由 Horton 與 Wohl (1956) 提出，指閱聽人透過媒介對名人或網紅發展出單向、想像的親密感與友誼。當代社群媒體的高頻率限時動態與直播互動，更大幅強化了這種「宛如摯友」的錯覺。",
+            taiwanCase: "在台灣多起百萬 YouTuber 或 KOL「人設翻車」事件中，原本高黏著度的粉絲往往比一般路人表現出更強烈的憤怒與背叛感，進而發起退訂潮，甚至連帶抵制該網紅過去推薦過的合作品牌。",
+            reflection: "當網紅發生不同性質的爭議（如：私人感情道德瑕疵 vs. 業配誇大不實之商業誠信爭議），粉絲既有的準社會互動強度，究竟會成為「護航的緩衝墊」還是「擴大拒買合作品牌的催化劑」？"
+        },
+        {
+            id: "entry-002",
+            category: "issue",
+            categoryLabel: "媒體議題",
+            title: "生成式 AI 深度偽造與真實性認知",
+            enTitle: "Deepfake & Truth-Default Theory",
+            keywords: ["生成式AI", "預設為真理論", "視覺素養"],
+            summary: "當 AI 生成影像逼真度超越肉眼極限，閱聽人如何判斷眼見是否為憑？",
+            coreConcept: "根據 Levine 的「預設為真理論（Truth-Default Theory）」，人類在日常溝通中為了降低認知負荷，會本能地預設接收到的資訊為真，除非出現明顯的欺騙觸發線索（Trigger）。然而生成式 AI 大幅消除了視覺破綻。",
+            taiwanCase: "台灣近年頻繁出現盜用財經名人或新聞主播影像的 AI 投資詐騙廣告，以及社群平台上瘋傳的 AI 合成街景與奇聞照片。許多長輩與一般使用者在滑手機的快速瀏覽狀態下，極易落入「眼見為憑」的預設陷阱。",
+            reflection: "在社群平台的資訊流中，系統標註「AI 生成標籤」或提供「識讀提示」，是否真能有效打破閱聽人的預設為真狀態？亦或會引發對所有真實新聞影像的全面性懷疑（真實性折扣）？"
+        },
+        {
+            id: "entry-003",
+            category: "theory",
+            categoryLabel: "傳播理論",
+            title: "意義移轉模型與代言危機",
+            enTitle: "Meaning Transfer Model",
+            keywords: ["品牌態度", "拒絕購買意向", "危機傳播"],
+            summary: "名人身上的文化意義會透過代言移轉至商品，但負面醜聞同樣會引發連帶污染。",
+            coreConcept: "McCracken (1989) 指出，名人代言的效果來自三個階段：文化意義先賦予在名人身上，接著透過廣告合作移轉至產品，最後由消費者購買產品以獲取該象徵意義。當名人爆發爭議時，負面意義也會逆向污染品牌。",
+            taiwanCase: "台灣手搖飲、美妝與日常消費品極度仰賴網紅團購與聯名。每當合作網紅爆發失言或違法爭議時，即便合作品牌本身產品無虞且未直接涉事，台灣網友仍常湧入品牌粉專要求表態切割，否則拒買。",
+            reflection: "若將合作品牌設定為「未直接涉及爭議」的無辜第三方，閱聽人對品牌的「拒絕購買意向」是否會因爭議類型是否涉及消費誠信而產生顯著差異？"
+        },
+        {
+            id: "entry-004",
+            category: "theory",
+            categoryLabel: "傳播理論",
+            title: "娛樂至死與短影音注意力經濟",
+            enTitle: "Amusing Ourselves to Death & Short-form Video",
+            keywords: ["波茲曼", "媒介環境學", "抖音與Reels"],
+            summary: "當一切公共議題都必須包裝成 30 秒的感官娛樂，深度思考將如何被媒介形式消解？",
+            coreConcept: "尼爾・波茲曼（Neil Postman）在《娛樂至死》中警告，印刷術時代培養了線性邏輯與理性思辨，而電視（及當代視覺影音）則將政治、新聞與教育全面轉化為娛樂表演。媒介的形式本身就決定了內容的深度上限。",
+            taiwanCase: "台灣新聞台與政治人物近年全面進駐 TikTok、IG Reels 與 YouTube Shorts。複雜的法案爭議或公共政策往往被壓縮成 15 秒的迷因配樂、誇張字卡與情緒化金句，追求完播率與瞬間情緒共鳴。",
+            reflection: "長期習慣高頻率、高刺激短影音的台灣年輕世代，在面對長篇文字論述或嚴肅公共議題時，其資訊處理耐心與議題認知複雜度是否產生結構性的改變？"
+        },
+        {
+            id: "entry-005",
+            category: "case",
+            categoryLabel: "台灣案例",
+            title: "Threads 在台灣的爆紅與「脆」社群生態",
+            enTitle: "Threads Phenomenon in Taiwan",
+            keywords: ["演算法推播", "碎片化敘事", "品牌海巡"],
+            summary: "台灣成為全球 Threads 黏著度最高的地區之一，形塑出獨特的「去中心化閒聊」與品牌海巡文化。",
+            coreConcept: "相較於 Instagram 強調精緻視覺與人設經營，Threads 以純文字為主、搭配高度積極的「陌生推播演算法」，讓沒有粉絲基礎的素人貼文也能在一夜之間獲得數萬讚，打破了傳統意見領袖的傳播壟斷。",
+            taiwanCase: "台灣使用者將 Threads 暱稱為「脆」，發展出獨特的「樹洞式抱怨」、「政治即時論戰」以及「品牌小編海巡」現象（只要網友提到某品牌或手搖飲，官方帳號就會秒回互動），成為台灣公關與輿情監測的一級戰區。",
+            reflection: "Threads 演算法偏好推播「高爭議、高情緒張力」的貼文以換取留言互動，這種機制如何加速台灣網路公審（出征）的速度，並改變閱聽人對公共輿論氣候的感知？"
+        },
+        {
+            id: "entry-006",
+            category: "theory",
+            categoryLabel: "傳播理論",
+            title: "沉默螺旋與社群同溫層效應",
+            enTitle: "Spiral of Silence in Echo Chambers",
+            keywords: ["民意氣候", "孤立恐懼", "社群出征"],
+            summary: "人們因害怕被群體孤立而選擇隱藏少數意見，但在分眾演算法下呈現出「多頭螺旋」的新樣貌。",
+            coreConcept: "Noelle-Neumann (1974) 提出，個人會透過「準統計感官」觀察周遭的意見氣候；若發現自己的立場屬於少數，會因害怕遭受孤立或攻擊而保持沉默，導致強勢意見看似越來越強。",
+            taiwanCase: "在台灣高度極化的社群討論（如選舉期間或社會爭議事件）中，不同平台（如 PTT、Dcard、Threads、臉書社團）往往形成截然不同的優勢意見氣候。使用者在逆風平台選擇潛水沉默，轉而退回自己的同溫層發聲。",
+            reflection: "在演算法打造的「過濾氣泡（Filter Bubble）」中，受訪者所感知到的「主流民意」往往已經過扭曲；這如何影響我們在問卷調查中測量「公開抵制/公開發聲意願」與「私下個人行為意向」之間的落差？"
+        }
+    ];
+
+    let activeCat = 'all';
+
+    function setCategory(cat, btn) {
+        activeCat = cat;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderEntries();
+    }
+
+    function renderEntries() {
+        const grid = document.getElementById('cardGrid');
+        const q = document.getElementById('searchInput').value.trim().toLowerCase();
+
+        const filtered = WIKI_ENTRIES.filter(item => {
+            const matchCat = activeCat === 'all' || item.category === activeCat;
+            const matchQuery = !q ||
+                item.title.toLowerCase().includes(q) ||
+                item.enTitle.toLowerCase().includes(q) ||
+                item.summary.toLowerCase().includes(q) ||
+                item.taiwanCase.toLowerCase().includes(q) ||
+                item.keywords.some(k => k.toLowerCase().includes(q));
+            return matchCat && matchQuery;
+        });
+
+        document.getElementById('statsCounter').textContent =
+            `ARCHIVE: ${filtered.length} / ${WIKI_ENTRIES.length} ENTRIES`;
+
+        grid.innerHTML = filtered.map((item, idx) => `
+            <article class="insight-card" onclick="openEntry('${item.id}')">
+                <div>
+                    <div class="card-meta-top">
+                        <span class="cat-badge ${item.category}">${item.categoryLabel}</span>
+                        <span class="entry-index">0${idx + 1}</span>
+                    </div>
+                    <h3 class="card-title">${item.title}</h3>
+                    <div class="card-en-title">${item.enTitle}</div>
+                    <p class="card-summary">${item.summary}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="keyword-list">
+                        ${item.keywords.map(k => `<span class="keyword-chip">#${k}</span>`).join('')}
+                    </div>
+                    <span class="read-link">READ ↗</span>
+                </div>
+            </article>
+        `).join('');
+    }
+
+    function openEntry(id) {
+        const item = WIKI_ENTRIES.find(e => e.id === id);
+        if (!item) return;
+
+        const badge = document.getElementById('m-badge');
+        badge.textContent = item.categoryLabel;
+        badge.className = `cat-badge ${item.category}`;
+
+        document.getElementById('m-id').textContent = item.id.toUpperCase();
+        document.getElementById('m-title').textContent = item.title;
+        document.getElementById('m-en').textContent = item.enTitle;
+        document.getElementById('m-concept').textContent = item.coreConcept;
+        document.getElementById('m-case').textContent = item.taiwanCase;
+        document.getElementById('m-reflection').textContent = item.reflection;
+
+        document.getElementById('m-keywords').innerHTML =
+            item.keywords.map(k => `<span class="keyword-chip">#${k}</span>`).join('');
+
+        document.getElementById('articleModal').classList.add('open');
+    }
+
+    function closeModal() {
+        document.getElementById('articleModal').classList.remove('open');
+    }
+
+    window.onload = renderEntries;
+</script>
+
 </body>
 </html>
